@@ -1,16 +1,14 @@
 #ifndef GOLOVKOV_HW_REDUCER_HPP
 #define GOLOVKOV_HW_REDUCER_HPP
 
-#include <fstream>
 #include <functional>
-#include <iostream>
 #include <numeric>
 #include <random>
 #include <vector>
 
+#include "measuredelegate.hpp"
 #include "timeutils.hpp"
 
-using std::cerr;
 using std::cout;
 
 
@@ -33,40 +31,23 @@ static T sumParallel(const std::vector<T > &array)
     return sum;
 }
 
-class ReducerDelegate
+class ReducerDelegate : public MeasureDelegate
 {
 public:
 
     explicit ReducerDelegate(const std::string &outFilePath);
 
-    ~ReducerDelegate();
-
     void makeMeasures(std::vector<std::size_t > arraySizeVariants,
                       std::size_t measuresCount);
-
-private:
-
-    std::fstream _ofs;
 };
 
 ReducerDelegate::ReducerDelegate(const std::string &outFilePath)
-        : _ofs(outFilePath, std::ios_base::out | std::ios_base::trunc)
+        : MeasureDelegate(outFilePath)
 {
-    if (!_ofs.is_open()) {
-        cerr << "Невозможно открыть файл " << outFilePath << std::endl;
-        throw std::exception();
-    }
-
-    _ofs << "Размер массива;"
-         << "Время последовательного алгоритма (нс);"
-         << "Время параллельного алгоритма (нс);"
-         << "Ускорение (раз);" << std::endl;
-}
-
-ReducerDelegate::~ReducerDelegate()
-{
-    if (_ofs.is_open())
-        _ofs.close();
+    ofs << "Размер массива;"
+        << "Время последовательного алгоритма (нс);"
+        << "Время параллельного алгоритма (нс);"
+        << "Ускорение (раз);" << std::endl;
 }
 
 void ReducerDelegate::makeMeasures(std::vector<std::size_t> arraySizeVariants,
@@ -109,10 +90,10 @@ void ReducerDelegate::makeMeasures(std::vector<std::size_t> arraySizeVariants,
              << "Ускорение: " << avgSequential / static_cast<double >(avgParallel)
              << std::endl << std::endl;
 
-        _ofs << size << ";"
-             << avgSequential << ";"
-             << avgParallel << ";"
-             << avgSequential / static_cast<double >(avgParallel) << std::endl;
+        ofs << size << ";"
+            << avgSequential << ";"
+            << avgParallel << ";"
+            << avgSequential / static_cast<double >(avgParallel) << std::endl;
     }
 }
 

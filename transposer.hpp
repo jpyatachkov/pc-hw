@@ -1,5 +1,5 @@
-#ifndef GOLOVKOV_HW_TRANSPOSER_HPP
-#define GOLOVKOV_HW_TRANSPOSER_HPP
+#ifndef PC_HW_TRANSPOSER_HPP
+#define PC_HW_TRANSPOSER_HPP
 
 #include <cassert>
 #include <functional>
@@ -115,4 +115,4 @@ void TransposerDelegate::makeMeasures(std::vector<std::size_t> matrixSizeVariant
     }
 }
 
-#endif //GOLOVKOV_HW_TRANSPOSER_HPP
+#endif //PC_HW_TRANSPOSER_HPP

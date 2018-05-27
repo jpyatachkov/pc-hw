@@ -1,5 +1,5 @@
-#ifndef GOLOVKOV_HW_REDUCER_HPP
-#define GOLOVKOV_HW_REDUCER_HPP
+#ifndef PC_HW_REDUCER_HPP
+#define PC_HW_REDUCER_HPP
 
 #include <functional>
 #include <numeric>
@@ -97,4 +97,4 @@ void ReducerDelegate::makeMeasures(std::vector<std::size_t> arraySizeVariants,
     }
 }
 
-#endif //GOLOVKOV_HW_REDUCER_HPP
+#endif //PC_HW_REDUCER_HPP

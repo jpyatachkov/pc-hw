@@ -1,9 +1,5 @@
-//
-// Created by jpyatachkov on 27.05.18.
-//
-
-#ifndef GOLOVKOV_HW_MEASUREDELEGATE_HPP
-#define GOLOVKOV_HW_MEASUREDELEGATE_HPP
+#ifndef PC_HW_MEASUREDELEGATE_HPP
+#define PC_HW_MEASUREDELEGATE_HPP
 
 #include <fstream>
 #include <iostream>
@@ -39,4 +35,4 @@ MeasureDelegate::~MeasureDelegate()
         ofs.close();
 }
 
-#endif //GOLOVKOV_HW_MEASUREDELEGATE_HPP
+#endif //PC_HW_MEASUREDELEGATE_HPP

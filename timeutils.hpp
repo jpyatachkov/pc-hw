@@ -1,5 +1,5 @@
-#ifndef GOLOVKOV_HW_TIMEUTILS_HPP
-#define GOLOVKOV_HW_TIMEUTILS_HPP
+#ifndef PC_HW_TIMEUTILS_HPP
+#define PC_HW_TIMEUTILS_HPP
 
 #include <chrono>
 
@@ -13,4 +13,4 @@ inline auto timeDiff(T lastTimePoint) {
     return std::chrono::duration_cast<std::chrono::nanoseconds >(getTime() - lastTimePoint).count();
 }
 
-#endif //GOLOVKOV_HW_TIMEUTILS_HPP
+#endif //PC_HW_TIMEUTILS_HPP

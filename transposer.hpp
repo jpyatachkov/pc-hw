@@ -68,30 +68,42 @@ void TransposerDelegate::makeMeasures(std::vector<std::size_t> matrixSizeVariant
     using DataType = int;
 
     std::default_random_engine engine;
-    std::uniform_int_distribution<DataType > distribution(-1000, 1000);
+    std::uniform_int_distribution<DataType > distribution(-100000000, 100000000);
     auto dice = std::bind(distribution, engine);
 
     for (const auto &size : matrixSizeVariants) {
         cout << "Размер матрицы " << size << "X" << size << std::endl;
 
-        std::vector<std::vector<DataType > > matrix;
-        matrix.reserve(size);
-        for (auto i = 0; i < size; ++i) {
-            std::vector<DataType > row;
-            row.reserve(size);
-            for (auto j = 0; j < size; ++j)
-                row.push_back(dice());
-
-            matrix.push_back(std::move(row));
-        }
-
         long avgSequential = 0;
         long avgParallel = 0;
 
-        for (auto i = 0; i < measuresCount; ++i) {
+        for (auto ctr = 0; ctr < measuresCount; ++ctr) {
+            std::vector<std::vector<DataType > > matrix;
+
+            matrix.reserve(size);
+            for (auto i = 0; i < size; ++i) {
+                std::vector<DataType > row;
+                row.reserve(size);
+                for (auto j = 0; j < size; ++j)
+                    row.push_back(dice());
+
+                matrix.push_back(std::move(row));
+            }
+
             auto sequentialTimePoint = getTime();
             transposeSequential(matrix);
             avgSequential += timeDiff(sequentialTimePoint);
+
+            matrix.clear();
+            matrix.reserve(size);
+            for (auto i = 0; i < size; ++i) {
+                std::vector<DataType > row;
+                row.reserve(size);
+                for (auto j = 0; j < size; ++j)
+                    row.push_back(dice());
+
+                matrix.push_back(std::move(row));
+            }
 
             auto parallelTimePoint = getTime();
             transposeParallel(matrix);

@@ -56,24 +56,30 @@ void ReducerDelegate::makeMeasures(std::vector<std::size_t> arraySizeVariants,
     using DataType = int;
 
     std::default_random_engine engine;
-    std::uniform_int_distribution<DataType > distribution(-1000, 1000);
+    std::uniform_int_distribution<DataType > distribution(-100000000, 100000000);
     auto dice = std::bind(distribution, engine);
 
     for (const auto &size : arraySizeVariants) {
         cout << "Размер массива " << size << std::endl;
 
-        std::vector<DataType > array;
-        array.reserve(size);
-        for (auto i = 0; i < size; ++i)
-            array.push_back(dice());
-
         long avgSequential = 0;
         long avgParallel = 0;
 
-        for (auto i = 0; i < measuresCount; ++i) {
+        for (auto ctr = 0; ctr < measuresCount; ++ctr) {
+            std::vector<DataType > array;
+
+            array.reserve(size);
+            for (auto i = 0; i < size; ++i)
+                array.push_back(dice());
+
             auto sequentialTimePoint = getTime();
             sumSequential(array);
             avgSequential += timeDiff(sequentialTimePoint);
+
+            array.clear();
+            array.reserve(size);
+            for (auto i = 0; i < size; ++i)
+                array.push_back(dice());
 
             auto parallelTimePoint = getTime();
             sumParallel(array);
